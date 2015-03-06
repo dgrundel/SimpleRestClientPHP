@@ -9,7 +9,7 @@ class SimpleRestClient {
 	private $connection = null;
 	private $idColumnName = 'id';
 
-	public function __construct($dbname, $dbtable, $username = '', $password = '', $host = 'localhost') {
+	public function __construct($dbname, $dbtable, $username = 'root', $password = '', $host = 'localhost') {
 		$this->dbname = $dbname;
 		$this->dbtable = $dbtable;
 		$this->username = $username;
@@ -21,7 +21,7 @@ class SimpleRestClient {
 		$http_verb = strtolower( isset($_REQUEST['_method']) ? $_REQUEST['_method'] : $_SERVER['REQUEST_METHOD'] );
 		$id = isset($_REQUEST['id']) ? $_REQUEST['id'] : null;
 		$data = isset($_REQUEST['data']) ? $_REQUEST['data'] : null;
-		
+
 		switch($http_verb) {
 			case 'post':
 				$this->store($data);
