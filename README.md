@@ -56,5 +56,5 @@ Update (PUT) record with ID 45 with the following values:
 name = 'Some Test Name', parent_category_id = 36, url = ''
 
 ```
-_method=put&id=45&data[help_category_id]=45&data[name]=Some%20Test%20Name&data[parent_category_id]=36&data[url]=
+_method=put&id=45&data[name]=Some%20Test%20Name&data[parent_category_id]=36&data[url]=
 ```
