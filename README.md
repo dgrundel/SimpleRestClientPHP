@@ -44,11 +44,11 @@ SimpleRestClient looks for a few parameters in the request. These can be include
 
 ### Request Parameters
 
-*_method* (optional) forces SimpleRestClient to behave as if a particular HTTP verb was used (GET, POST, PUT, DELETE.) If not provided, $_SERVER['REQUEST_METHOD'] is used.
+**_method** (optional) forces SimpleRestClient to behave as if a particular HTTP verb was used (GET, POST, PUT, DELETE.) If not provided, $_SERVER['REQUEST_METHOD'] is used.
 
-*id* (required for PUT, DELETE, optional for GET) tells SimpleRestClient which record to operate on. Note that *id* is always called *id* regardless of the actual name of the ID column.
+**id** or **your own id column name** (required for PUT, DELETE, optional for GET) tells SimpleRestClient which record to operate on. If you used *setIdColumnName*, you may use either *id* or your actual column name.
 
-*data* (required for POST, PUT) is the array of data to load into the record.
+**data** (required for POST, PUT) is the array of data to load into the record.
 
 #### Example Query String
 

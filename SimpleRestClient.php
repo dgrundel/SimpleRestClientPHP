@@ -18,11 +18,11 @@ class SimpleRestClient {
 	}
 
 	public function init() {
-		$http_verb = strtolower( isset($_REQUEST['_method']) ? $_REQUEST['_method'] : $_SERVER['REQUEST_METHOD'] );
-		$id = isset($_REQUEST['id']) ? $_REQUEST['id'] : null;
-		$data = isset($_REQUEST['data']) ? $_REQUEST['data'] : null;
+		$method = $this->getRequestMethod();
+		$id = $this->getIdFromRequest();
+		$data = $this->getDataFromRequest();
 
-		switch($http_verb) {
+		switch($method) {
 			case 'post':
 				$this->store($data);
 				break;
@@ -42,6 +42,38 @@ class SimpleRestClient {
 		}
 	}
 
+	public function setIdColumnName($name) {
+		if(is_string($name) && !empty($name)) {
+			$this->idColumnName = $name;
+		} else {
+			throw new Exception("setIdColumnName: name must be a non-empty string.");
+		}
+	}
+
+	public function getRequestMethod() {
+		$method = $_SERVER['REQUEST_METHOD'];
+		if(isset($_REQUEST['_method'])) {
+			$method = $_REQUEST['_method'];
+		}
+		return strtolower($method);
+	}
+
+	public function getIdFromRequest() {
+		$id = null;
+		$id_params = array_unique(array('id', $this->idColumnName));
+		foreach ($id_params as $param) {
+			if(isset($_REQUEST[$param])) {
+				$id = $_REQUEST[$param];
+				break;
+			}
+		}
+		return $id;
+	}
+
+	public function getDataFromRequest() {
+		return isset($_REQUEST['data']) ? $_REQUEST['data'] : array();
+	}
+
 	public function getConnection() {
 		if($this->connection === null) {
 			$c = new mysqli($this->host, $this->username, $this->password, $this->dbname);
@@ -54,16 +86,12 @@ class SimpleRestClient {
 		return $this->connection;
 	}
 
-	public function setIdColumnName($name) {
-		$this->idColumnName = $name;
-	}
-
 	public function escapeId($id) {
 		$id = intval($id);
 		if($id > 0) {
 			return $id;
 		} else {
-			throw new Exception("Bad id value.");
+			throw new Exception("escapeId: invalid id.");
 		}
 	}
 
